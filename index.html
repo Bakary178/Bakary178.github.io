@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Bakary Conté | DevStudio Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #24243e 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 20% 30%, rgba(255, 180, 70, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .app-window {
+      max-width: 1400px;
+      width: 95%;
+      margin: 1.5rem auto;
+      background: rgba(15, 20, 35, 0.7);
+      backdrop-filter: blur(16px);
+      border-radius: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+    }
+
+    .main-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 180, 70, 0.3);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD6A5, #FFB347);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .brand p { font-size: 0.7rem; color: #a0a0c0; }
+
+    /* Navigation toujours visible */
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(0,0,0,0.3);
+      padding: 0.3rem;
+      border-radius: 60px;
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      color: #ccc;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .nav-btn.active { background: #FFB347; color: #1a1a2e; }
+    .nav-btn:hover:not(.active) { background: rgba(255,180,70,0.3); }
+
+    /* Bouton retour flottant (mobile) */
+    .back-to-home {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #FFB347;
+      color: #1a1a2e;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 100;
+      border: none;
+    }
+    .back-to-home:hover { background: #FFD6A5; transform: scale(1.05); }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+    }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(145deg, #FFB347, #FF6B6B);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+    .logout-btn {
+      background: rgba(255,80,80,0.2);
+      border: none;
+      color: #FFAAAA;
+      padding: 0.3rem 0.8rem;
+      border-radius: 40px;
+      cursor: pointer;
+    }
+
+    .page { display: none; padding: 2rem; }
+    .page.active { display: block; }
+
+    /* Header de page avec titre + nav */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .page-header h2 {
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 1.5rem;
+      padding: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .card h3 {
+      color: #FFB347;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.5rem;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .auth-card {
+      max-width: 500px;
+      margin: 2rem auto;
+      background: rgba(0,0,0,0.6);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid rgba(255,180,70,0.4);
+    }
+    .auth-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
+    .auth-tab { background: none; border: none; padding: 0.5rem 1rem; color: #aaa; cursor: pointer; }
+    .auth-tab.active { color: #FFB347; border-bottom: 2px solid #FFB347; }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
+    .auth-form input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 1rem;
+      color: white;
+    }
+    .auth-form button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      background: #FFB347;
+      border: none;
+      border-radius: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-oauth {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      background: #1a1a2e;
+      border: 1px solid #FFB34755;
+      border-radius: 2rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Calculatrice */
+    .calc-screen {
+      background: #0f0f1a;
+      padding: 1rem;
+      border-radius: 1rem;
+      text-align: right;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .calc-btn {
+      background: #1a1a2e;
+      border: none;
+      padding: 0.7rem;
+      border-radius: 0.8rem;
+      color: white;
+      cursor: pointer;
+    }
+    .calc-btn.operator { background: #FFB34733; color: #FFB347; }
+    .calc-btn.equal { background: #FFB347; color: #1a1a2e; }
+
+    /* Calendrier */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .calendar-weekdays, .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      gap: 0.3rem;
+    }
+    .calendar-days div {
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .calendar-days div:hover { background: #FFB34755; }
+
+    /* Météo */
+    .weather-info { text-align: center; }
+    .weather-temp { font-size: 2.5rem; font-weight: bold; color: #FFB347; }
+
+    /* Notes */
+    .note-item {
+      background: rgba(255,255,255,0.05);
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 768px) {
+      .main-header { flex-direction: column; }
+      .page { padding: 1rem; }
+      .page-header { flex-direction: column; align-items: flex-start; }
+      .back-to-home { display: flex; }
+    }
+    .hidden { display: none; }
+    footer { text-align: center; padding: 1rem; font-size: 0.7rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); }
+  </style>
+</head>
+<body>
+
+<div class="app-window">
+  <div class="main-header">
+    <div class="brand">
+      <h1><i class="fas fa-code"></i> Bakary Conté</h1>
+      <p>FullStack Creator • bakaryconte80@gmail.com</p>
+    </div>
+    <div id="dynamicUserArea"></div>
+  </div>
+
+  <!-- Navigation principale (toujours visible) -->
+  <div style="padding: 0 2rem; border-bottom: 1px solid rgba(255,180,70,0.2);">
+    <div class="nav-tabs" id="mainNav">
+      <button class="nav-btn active" data-page="home"><i class="fas fa-home"></i> Accueil</button>
+      <button class="nav-btn" data-page="apps"><i class="fas fa-th"></i> Applications</button>
+    </div>
+  </div>
+
+  <!-- Page d'accueil -->
+  <div id="homePage" class="page active">
+    <div class="page-header">
+      <h2><i class="fas fa-home"></i> Tableau de bord</h2>
+    </div>
+    <div id="homeContent">
+      <div class="card">
+        <div style="text-align: center; padding: 1rem;">
+          <div style="width: 100px; height: 100px; background: linear-gradient(145deg, #FFB347, #FF6B6B); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">BC</div>
+          <h2 style="color:#FFB347;">Bakary Conté</h2>
+          <p style="margin: 0.5rem 0;"><i class="fas fa-calendar-alt"></i> 19 ans · Développeur Full-Stack</p>
+          <p style="margin: 0.5rem 0;"><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
+          <p style="margin: 0.5rem 0;"><i class="fas fa-envelope"></i> bakaryconte80@gmail.com</p>
+          <p style="margin: 0.5rem 0;"><i class="fas fa-phone"></i> +224 610 175 277</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-user-astronaut"></i> À propos</h3>
+        <p>Je m'appelle <strong>Bakary Conté</strong>, jeune développeur passionné de 19 ans. Je crée des applications web modernes, sécurisées et intuitives. Bienvenue dans mon univers digital !</p>
+        <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">React/Next</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">TypeScript</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">Node.js</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">Python</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-rocket"></i> Message de bienvenue</h3>
+        <p style="font-size: 1.1rem;">✨ <strong>Bienvenue dans l'univers Conté</strong> ✨<br>Ici, la technologie rencontre la créativité. Explorez mes applications et n'hésitez pas à me contacter !</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Applications -->
+  <div id="appsPage" class="page">
+    <div class="page-header">
+      <h2><i class="fas fa-th"></i> Mes Applications</h2>
+    </div>
+    <div class="apps-grid">
+      <!-- Calculatrice -->
+      <div class="card">
+        <h3><i class="fas fa-calculator"></i> Calculatrice</h3>
+        <div class="calculator">
+          <div class="calc-screen" id="calcScreen">0</div>
+          <div class="calc-buttons" id="calcButtons"></div>
+        </div>
+      </div>
+      <!-- Calendrier -->
+      <div class="card">
+        <h3><i class="fas fa-calendar-alt"></i> Calendrier</h3>
+        <div id="calendarWidget"></div>
+      </div>
+      <!-- Météo -->
+      <div class="card">
+        <h3><i class="fas fa-cloud-sun"></i> Météo</h3>
+        <div class="weather-info">
+          <p><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
+          <div class="weather-temp" id="weatherTemp">--°C</div>
+          <p id="weatherDesc">Chargement...</p>
+        </div>
+      </div>
+      <!-- Prise de notes -->
+      <div class="card">
+        <h3><i class="fas fa-sticky-note"></i> Notes rapides</h3>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="noteInput" placeholder="Nouvelle note..." style="flex:1; padding:0.5rem; border-radius:0.8rem; border:none; background:#1a1a2e; color:white;">
+          <button id="addNoteBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">+</button>
+        </div>
+        <div id="notesList" style="margin-top: 1rem;"></div>
+      </div>
+      <!-- Minuteur -->
+      <div class="card">
+        <h3><i class="fas fa-hourglass-half"></i> Minuteur</h3>
+        <div style="text-align: center;">
+          <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0;" id="timerDisplay">00:00</div>
+          <div style="display: flex; gap: 0.5rem; justify-content: center;">
+            <input type="number" id="timerMinutes" placeholder="Minutes" style="width:80px; padding:0.5rem; border-radius:0.8rem; background:#1a1a2e; border:none; color:white;">
+            <button id="startTimerBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Démarrer</button>
+            <button id="resetTimerBtn" style="background:#555; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page d'authentification -->
+  <div id="authPage">
+    <div class="auth-card">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <i class="fas fa-laptop-code" style="font-size: 3rem; color: #FFB347;"></i>
+        <h2 style="color:white;">Espace Sécurisé</h2>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth="login">Connexion</button>
+        <button class="auth-tab" data-auth="register">Créer un compte</button>
+      </div>
+      <div id="loginForm" class="auth-form active">
+        <input type="email" id="loginEmail" placeholder="Email" value="bakaryconte80@gmail.com">
+        <input type="password" id="loginPassword" placeholder="Mot de passe">
+        <button id="doLogin">Se connecter</button>
+        <div style="text-align: center; margin: 1rem 0; color:#aaa;">ou</div>
+        <button id="googleAuthBtn" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
+        <button id="githubAuthBtn" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
+      </div>
+      <div id="registerForm" class="auth-form">
+        <input type="text" id="regNom" placeholder="Nom">
+        <input type="text" id="regPrenom" placeholder="Prénom">
+        <input type="date" id="regBirth">
+        <input type="tel" id="regPhone" placeholder="Téléphone">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="password" id="regPassword" placeholder="Mot de passe">
+        <button id="doRegister">Créer mon compte</button>
+        <div style="text-align: center; margin: 1rem 0; color:#aaa;">ou</div>
+        <button id="googleAuthBtn2" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
+        <button id="githubAuthBtn2" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bouton retour flottant (mobile) -->
+  <button class="back-to-home" id="backToHomeBtn"><i class="fas fa-arrow-left"></i></button>
+
+  <footer>© 2026 Bakary Conté - Tous droits réservés</footer>
+</div>
+
+<script>
+  // ========== STOCKAGE SESSION ==========
+  const SESSION_KEY = "bakary_session";
+  let currentUser = null;
+  let users = JSON.parse(localStorage.getItem("bakary_users") || '[]');
+
+  function saveSession(user) {
+    const session = { uid: user.uid, email: user.email, name: user.name, provider: user.provider };
+    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    currentUser = user;
+  }
+
+  function loadSession() {
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (raw) {
+      try {
+        const session = JSON.parse(raw);
+        currentUser = session;
+        return session;
+      } catch(e) {}
+    }
+    return null;
+  }
+
+  function logout() {
+    localStorage.removeItem(SESSION_KEY);
+    currentUser = null;
+    document.getElementById('authPage').style.display = 'block';
+    document.getElementById('homePage').classList.remove('active');
+    document.getElementById('appsPage').classList.remove('active');
+    document.getElementById('dynamicUserArea').innerHTML = '';
+    updateUIForAuth();
+  }
+
+  function updateUIForAuth() {
+    if (currentUser) {
+      document.getElementById('authPage').style.display = 'none';
+      document.getElementById('homePage').classList.add('active');
+      document.getElementById('appsPage').classList.remove('active');
+      document.querySelector('.nav-btn[data-page="home"]').classList.add('active');
+      document.querySelector('.nav-btn[data-page="apps"]').classList.remove('active');
+      document.getElementById('dynamicUserArea').innerHTML = `
+        <div class="user-area">
+          <div class="user-avatar">${currentUser.name?.charAt(0) || 'B'}</div>
+          <span>${currentUser.name || currentUser.email}</span>
+          <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      `;
+      document.getElementById('logoutBtn')?.addEventListener('click', logout);
+      initApps();
+    } else {
+      document.getElementById('authPage').style.display = 'block';
+      document.getElementById('homePage').classList.remove('active');
+      document.getElementById('appsPage').classList.remove('active');
+    }
+  }
+
+  // Navigation entre pages
+  function initNavigation() {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (page === 'home') {
+          document.getElementById('homePage').classList.add('active');
+          document.getElementById('appsPage').classList.remove('active');
+        } else {
+          document.getElementById('homePage').classList.remove('active');
+          document.getElementById('appsPage').classList.add('active');
+          initApps();
+        }
+      });
+    });
+    // Bouton retour flottant
+    document.getElementById('backToHomeBtn')?.addEventListener('click', () => {
+      document.querySelector('.nav-btn[data-page="home"]').click();
+    });
+  }
+
+  function initApps() {
+    initCalculator();
+    renderCalendar();
+    loadWeather();
+    loadNotes();
+    initTimer();
+  }
+
+  // Calculatrice
+  function initCalculator() {
+    const container = document.getElementById('calcButtons');
+    if (!container || container.innerHTML) return;
+    const buttons = ['7','8','9','/','4','5','6','*','1','2','3','-','0','.','C','+','←','='];
+    container.innerHTML = buttons.map(btn => `<button class="calc-btn ${'/*+-'.includes(btn) ? 'operator' : ''} ${btn === '=' ? 'equal' : ''}" data-val="${btn}">${btn}</button>`).join('');
+    const screen = document.getElementById('calcScreen');
+    let current = '0', prev = null, op = null, reset = false;
+    function update() { screen.innerText = current.length > 12 ? parseFloat(current).toExponential(6) : current; }
+    function compute() {
+      if (prev === null || op === null) return;
+      let a = parseFloat(prev), b = parseFloat(current);
+      if (isNaN(a) || isNaN(b)) return;
+      let res = op === '+' ? a+b : op === '-' ? a-b : op === '*' ? a*b : op === '/' ? (b===0?'Erreur':a/b) : 0;
+      current = res.toString();
+      prev = null; op = null; reset = true;
+      update();
+    }
+    document.querySelectorAll('#calcButtons .calc-btn').forEach(btn => {
+      btn.onclick = () => {
+        let val = btn.getAttribute('data-val');
+        if (val === 'C') { current = '0'; prev = null; op = null; reset = false; update(); }
+        else if (val === '←') { current = current.length <= 1 ? '0' : current.slice(0,-1); reset = false; update(); }
+        else if (val === '=') { compute(); }
+        else if ('/*+-'.includes(val)) {
+          if (prev !== null && op !== null && !reset) compute();
+          prev = current; op = val; reset = true;
+        } else {
+          if (reset) { current = '0'; reset = false; }
+          if (val === '.' && current.includes('.')) return;
+          current = (current === '0' && val !== '.') ? val : current + val;
+          update();
+        }
+      };
+    });
+  }
+
+  // Calendrier
+  function renderCalendar() {
+    const container = document.getElementById('calendarWidget');
+    if (!container) return;
+    let today = new Date();
+    let month = today.getMonth(), year = today.getFullYear();
+    function build() {
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+      let html = `<div class="calendar-header"><button id="prevMonth"><i class="fas fa-chevron-left"></i></button><span>${new Date(year, month).toLocaleString('fr',{month:'long',year:'numeric'})}</span><button id="nextMonth"><i class="fas fa-chevron-right"></i></button></div>
+      <div class="calendar-weekdays"><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="calendar-days" id="calendarDays"></div>`;
+      container.innerHTML = html;
+      const daysDiv = document.getElementById('calendarDays');
+      let start = firstDay === 0 ? 6 : firstDay-1;
+      for(let i=0;i<start;i++) daysDiv.appendChild(document.createElement('div'));
+      for(let d=1;d<=daysInMonth;d++) { let el=document.createElement('div'); el.innerText=d; daysDiv.appendChild(el); }
+      document.getElementById('prevMonth')?.addEventListener('click',()=>{ month--; if(month<0){month=11;year--;} build(); });
+      document.getElementById('nextMonth')?.addEventListener('click',()=>{ month++; if(month>11){month=0;year++;} build(); });
+    }
+    build();
+  }
+
+  function loadWeather() {
+    const tempDiv = document.getElementById('weatherTemp');
+    const descDiv = document.getElementById('weatherDesc');
+    if(!tempDiv) return;
+    const temps = [28,29,30,27,31];
+    const descs = ['Ensoleillé','Peu nuageux','Clair','Légère brise','Chaud'];
+    const idx = Math.floor(Math.random()*5);
+    tempDiv.innerText = `${temps[idx]}°C`;
+    descDiv.innerText = descs[idx];
+  }
+
+  function loadNotes() {
+    let notes = JSON.parse(localStorage.getItem('bakary_notes') || '[]');
+    const container = document.getElementById('notesList');
+    if(!container) return;
+    function render() {
+      container.innerHTML = notes.map((note,i) => `<div class="note-item"><span>${note}</span><button data-idx="${i}" style="background:none; border:none; color:#FF6B6B; cursor:pointer;"><i class="fas fa-trash"></i></button></div>`).join('');
+      document.querySelectorAll('.note-item button').forEach(btn => {
+        btn.onclick = () => { notes.splice(parseInt(btn.dataset.idx),1); localStorage.setItem('bakary_notes',JSON.stringify(notes)); render(); };
+      });
+    }
+    document.getElementById('addNoteBtn')?.addEventListener('click',()=>{
+      const inp = document.getElementById('noteInput');
+      if(inp.value.trim()){ notes.push(inp.value.trim()); localStorage.setItem('bakary_notes',JSON.stringify(notes)); inp.value=''; render(); }
+    });
+    render();
+  }
+
+  let timerInterval = null;
+  function initTimer() {
+    let remaining = 0;
+    const display = document.getElementById('timerDisplay');
+    function updateDisplay() { let m=Math.floor(remaining/60); let s=remaining%60; display.innerText=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
+    document.getElementById('startTimerBtn')?.addEventListener('click',()=>{
+      let mins = parseInt(document.getElementById('timerMinutes')?.value || '0');
+      if(mins>0 && !timerInterval){
+        remaining = mins*60;
+        updateDisplay();
+        timerInterval = setInterval(()=>{ if(remaining>0){ remaining--; updateDisplay(); }else{ clearInterval(timerInterval); timerInterval=null; } },1000);
+      }
+    });
+    document.getElementById('resetTimerBtn')?.addEventListener('click',()=>{ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } remaining=0; updateDisplay(); });
+    updateDisplay();
+  }
+
+  function registerUser(nom,prenom,birth,phone,email,password){
+    if(users.find(u=>u.email===email)) return false;
+    users.push({uid:'user_'+Date.now(), nom, prenom, birth, phone, email, password, provider:'email'});
+    localStorage.setItem('bakary_users',JSON.stringify(users));
+    return true;
+  }
+  function loginUser(email,password){
+    const user = users.find(u=>u.email===email && u.password===password);
+    if(user) return {uid:user.uid, email:user.email, name:`${user.prenom||''} ${user.nom||''}`.trim() || user.email, provider:'email'};
+    return null;
+  }
+  function socialLogin(provider){
+    const fakeUser = {uid:provider+'_'+Date.now(), email:`${provider}@user.com`, name:`${provider.charAt(0).toUpperCase()+provider.slice(1)} User`, provider:provider};
+    saveSession(fakeUser);
+    updateUIForAuth();
+  }
+
+  document.getElementById('doLogin')?.addEventListener('click',()=>{
+    const email = document.getElementById('loginEmail').value;
+    const pwd = document.getElementById('loginPassword').value;
+    const user = loginUser(email,pwd);
+    if(user || (email==='bakaryconte80@gmail.com' && pwd==='admin')){ 
+      if(!user && email==='bakaryconte80@gmail.com' && pwd==='admin') saveSession({uid:'admin', email, name:'Bakary Conté', provider:'email'});
+      else saveSession(user);
+      updateUIForAuth();
+    } else alert('Email ou mot de passe incorrect');
+  });
+  document.getElementById('doRegister')?.addEventListener('click',()=>{
+    if(registerUser(
+      document.getElementById('regNom').value,
+      document.getElementById('regPrenom').value,
+      document.getElementById('regBirth').value,
+      document.getElementById('regPhone').value,
+      document.getElementById('regEmail').value,
+      document.getElementById('regPassword').value
+    )) alert('Compte créé ! Connectez-vous');
+    else alert('Email déjà utilisé');
+  });
+  document.querySelectorAll('#googleAuthBtn, #googleAuthBtn2').forEach(btn=>btn.addEventListener('click',()=>socialLogin('google')));
+  document.querySelectorAll('#githubAuthBtn, #githubAuthBtn2').forEach(btn=>btn.addEventListener('click',()=>socialLogin('github')));
+  document.querySelectorAll('.auth-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const type = tab.dataset.auth;
+      document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('loginForm').classList.toggle('active', type==='login');
+      document.getElementById('registerForm').classList.toggle('active', type==='register');
+    });
+  });
+
+  if(loadSession()) updateUIForAuth();
+  else updateUIForAuth();
+  initNavigation();
+  if(currentUser) initApps();
+</script>
+</body>
+</html>
