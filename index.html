@@ -31,10 +31,10 @@
       max-width: 1400px;
       width: 95%;
       margin: 1.5rem auto;
-      background: rgba(15, 20, 35, 0.7);
+      background: rgba(15, 20, 35, 0.85);
       backdrop-filter: blur(16px);
       border-radius: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
       overflow: hidden;
       position: relative;
@@ -46,8 +46,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      background: rgba(0, 0, 0, 0.4);
-      border-bottom: 1px solid rgba(255, 180, 70, 0.3);
+      background: rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(255, 180, 70, 0.4);
       flex-wrap: wrap;
       gap: 1rem;
     }
@@ -60,9 +60,8 @@
       background-clip: text;
       color: transparent;
     }
-    .brand p { font-size: 0.7rem; color: #a0a0c0; }
+    .brand p { font-size: 0.7rem; color: #ddd; }
 
-    /* Navigation toujours visible */
     .nav-tabs {
       display: flex;
       gap: 0.5rem;
@@ -75,7 +74,7 @@
       border: none;
       padding: 0.5rem 1.2rem;
       border-radius: 40px;
-      color: #ccc;
+      color: #eee;
       font-weight: 500;
       cursor: pointer;
       transition: 0.2s;
@@ -83,32 +82,11 @@
     .nav-btn.active { background: #FFB347; color: #1a1a2e; }
     .nav-btn:hover:not(.active) { background: rgba(255,180,70,0.3); }
 
-    /* Bouton retour flottant (mobile) */
-    .back-to-home {
-      display: none;
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #FFB347;
-      color: #1a1a2e;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      z-index: 100;
-      border: none;
-    }
-    .back-to-home:hover { background: #FFD6A5; transform: scale(1.05); }
-
     .user-area {
       display: flex;
       align-items: center;
       gap: 1rem;
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.1);
       padding: 0.3rem 1rem;
       border-radius: 60px;
     }
@@ -135,7 +113,6 @@
     .page { display: none; padding: 2rem; }
     .page.active { display: block; }
 
-    /* Header de page avec titre + nav */
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -152,10 +129,10 @@
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.55);
       border-radius: 1.5rem;
       padding: 1.2rem;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
       margin-bottom: 1.5rem;
     }
     .card h3 {
@@ -164,8 +141,11 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
       padding-bottom: 0.5rem;
+    }
+    .card p, .card span, .card div:not(.social-links-section) {
+      color: #f0f0f0;
     }
 
     .apps-grid {
@@ -177,13 +157,13 @@
     .auth-card {
       max-width: 500px;
       margin: 2rem auto;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       border-radius: 2rem;
       padding: 2rem;
-      border: 1px solid rgba(255,180,70,0.4);
+      border: 1px solid rgba(255,180,70,0.5);
     }
     .auth-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
-    .auth-tab { background: none; border: none; padding: 0.5rem 1rem; color: #aaa; cursor: pointer; }
+    .auth-tab { background: none; border: none; padding: 0.5rem 1rem; color: #ddd; cursor: pointer; }
     .auth-tab.active { color: #FFB347; border-bottom: 2px solid #FFB347; }
     .auth-form { display: none; }
     .auth-form.active { display: block; }
@@ -191,11 +171,12 @@
       width: 100%;
       padding: 0.8rem;
       margin: 0.5rem 0;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.15);
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 1rem;
       color: white;
     }
+    .auth-form input::placeholder { color: #ccc; }
     .auth-form button {
       width: 100%;
       padding: 0.8rem;
@@ -214,11 +195,38 @@
       width: 100%;
       padding: 0.7rem;
       margin: 0.5rem 0;
-      background: #1a1a2e;
+      background: #2a2a4e;
       border: 1px solid #FFB34755;
       border-radius: 2rem;
       color: white;
       cursor: pointer;
+    }
+
+    /* Réseaux sociaux */
+    .social-links-section {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 55px;
+      height: 55px;
+      background: rgba(255,180,70,0.2);
+      border-radius: 50%;
+      font-size: 2rem;
+      color: #FFB347;
+      transition: 0.2s;
+      border: 1px solid rgba(255,180,70,0.4);
+    }
+    .social-icon:hover {
+      background: #FFB347;
+      color: #1a1a2e;
+      transform: translateY(-3px);
     }
 
     /* Calculatrice */
@@ -229,6 +237,7 @@
       text-align: right;
       font-size: 1.5rem;
       margin-bottom: 1rem;
+      color: white;
     }
     .calc-buttons {
       display: grid;
@@ -252,6 +261,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
+      color: white;
     }
     .calendar-weekdays, .calendar-days {
       display: grid;
@@ -259,35 +269,38 @@
       text-align: center;
       gap: 0.3rem;
     }
+    .calendar-weekdays div { color: #FFB347; font-weight: bold; padding: 0.5rem; }
     .calendar-days div {
       padding: 0.5rem;
       border-radius: 50%;
       cursor: pointer;
+      color: white;
     }
     .calendar-days div:hover { background: #FFB34755; }
 
     /* Météo */
-    .weather-info { text-align: center; }
+    .weather-info { text-align: center; color: white; }
     .weather-temp { font-size: 2.5rem; font-weight: bold; color: #FFB347; }
 
     /* Notes */
     .note-item {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.1);
       padding: 0.5rem;
       margin: 0.5rem 0;
       border-radius: 0.5rem;
       display: flex;
       justify-content: space-between;
+      color: white;
     }
+    #noteInput::placeholder { color: #aaa; }
 
     @media (max-width: 768px) {
       .main-header { flex-direction: column; }
       .page { padding: 1rem; }
       .page-header { flex-direction: column; align-items: flex-start; }
-      .back-to-home { display: flex; }
     }
     .hidden { display: none; }
-    footer { text-align: center; padding: 1rem; font-size: 0.7rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); }
+    footer { text-align: center; padding: 1rem; font-size: 0.7rem; color: #ccc; border-top: 1px solid rgba(255,255,255,0.1); }
   </style>
 </head>
 <body>
@@ -301,7 +314,7 @@
     <div id="dynamicUserArea"></div>
   </div>
 
-  <!-- Navigation principale (toujours visible) -->
+  <!-- Navigation principale -->
   <div style="padding: 0 2rem; border-bottom: 1px solid rgba(255,180,70,0.2);">
     <div class="nav-tabs" id="mainNav">
       <button class="nav-btn active" data-page="home"><i class="fas fa-home"></i> Accueil</button>
@@ -319,25 +332,39 @@
         <div style="text-align: center; padding: 1rem;">
           <div style="width: 100px; height: 100px; background: linear-gradient(145deg, #FFB347, #FF6B6B); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">BC</div>
           <h2 style="color:#FFB347;">Bakary Conté</h2>
-          <p style="margin: 0.5rem 0;"><i class="fas fa-calendar-alt"></i> 19 ans · Développeur Full-Stack</p>
-          <p style="margin: 0.5rem 0;"><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
-          <p style="margin: 0.5rem 0;"><i class="fas fa-envelope"></i> bakaryconte80@gmail.com</p>
-          <p style="margin: 0.5rem 0;"><i class="fas fa-phone"></i> +224 610 175 277</p>
+          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-calendar-alt"></i> 19 ans · Développeur Full-Stack</p>
+          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
+          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-envelope"></i> bakaryconte80@gmail.com</p>
+          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-phone"></i> +224 610 175 277</p>
         </div>
       </div>
+
+      <!-- SECTION RÉSEAUX SOCIAUX (sans GitHub) -->
+      <div class="card">
+        <h3><i class="fas fa-share-alt"></i> Mes réseaux sociaux</h3>
+        <div class="social-links-section">
+          <a href="https://www.tiktok.com/@bakary.73" target="_blank" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.snapchat.com/add/bakary_73" target="_blank" class="social-icon" title="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #ddd;">
+          <i class="fab fa-tiktok"></i> @bakary.73 &nbsp;|&nbsp;
+          <i class="fab fa-snapchat-ghost"></i> bakary_73
+        </p>
+      </div>
+
       <div class="card">
         <h3><i class="fas fa-user-astronaut"></i> À propos</h3>
         <p>Je m'appelle <strong>Bakary Conté</strong>, jeune développeur passionné de 19 ans. Je crée des applications web modernes, sécurisées et intuitives. Bienvenue dans mon univers digital !</p>
         <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">React/Next</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">TypeScript</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">Node.js</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px;">Python</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">React/Next</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">TypeScript</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">Node.js</span>
+          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">Python</span>
         </div>
       </div>
       <div class="card">
         <h3><i class="fas fa-rocket"></i> Message de bienvenue</h3>
-        <p style="font-size: 1.1rem;">✨ <strong>Bienvenue dans l'univers Conté</strong> ✨<br>Ici, la technologie rencontre la créativité. Explorez mes applications et n'hésitez pas à me contacter !</p>
+        <p style="font-size: 1.1rem; color:#f0f0f0;">✨ <strong>Bienvenue dans l'univers Conté</strong> ✨<br>Ici, la technologie rencontre la créativité. Explorez mes applications et n'hésitez pas à me contacter !</p>
       </div>
     </div>
   </div>
@@ -348,7 +375,6 @@
       <h2><i class="fas fa-th"></i> Mes Applications</h2>
     </div>
     <div class="apps-grid">
-      <!-- Calculatrice -->
       <div class="card">
         <h3><i class="fas fa-calculator"></i> Calculatrice</h3>
         <div class="calculator">
@@ -356,12 +382,10 @@
           <div class="calc-buttons" id="calcButtons"></div>
         </div>
       </div>
-      <!-- Calendrier -->
       <div class="card">
         <h3><i class="fas fa-calendar-alt"></i> Calendrier</h3>
         <div id="calendarWidget"></div>
       </div>
-      <!-- Météo -->
       <div class="card">
         <h3><i class="fas fa-cloud-sun"></i> Météo</h3>
         <div class="weather-info">
@@ -370,22 +394,20 @@
           <p id="weatherDesc">Chargement...</p>
         </div>
       </div>
-      <!-- Prise de notes -->
       <div class="card">
         <h3><i class="fas fa-sticky-note"></i> Notes rapides</h3>
         <div style="display: flex; gap: 0.5rem;">
-          <input type="text" id="noteInput" placeholder="Nouvelle note..." style="flex:1; padding:0.5rem; border-radius:0.8rem; border:none; background:#1a1a2e; color:white;">
+          <input type="text" id="noteInput" placeholder="Nouvelle note..." style="flex:1; padding:0.5rem; border-radius:0.8rem; border:none; background:#2a2a4e; color:white;">
           <button id="addNoteBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">+</button>
         </div>
         <div id="notesList" style="margin-top: 1rem;"></div>
       </div>
-      <!-- Minuteur -->
       <div class="card">
         <h3><i class="fas fa-hourglass-half"></i> Minuteur</h3>
         <div style="text-align: center;">
-          <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0;" id="timerDisplay">00:00</div>
+          <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color:white;" id="timerDisplay">00:00</div>
           <div style="display: flex; gap: 0.5rem; justify-content: center;">
-            <input type="number" id="timerMinutes" placeholder="Minutes" style="width:80px; padding:0.5rem; border-radius:0.8rem; background:#1a1a2e; border:none; color:white;">
+            <input type="number" id="timerMinutes" placeholder="Minutes" style="width:80px; padding:0.5rem; border-radius:0.8rem; background:#2a2a4e; border:none; color:white;">
             <button id="startTimerBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Démarrer</button>
             <button id="resetTimerBtn" style="background:#555; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Reset</button>
           </div>
@@ -409,7 +431,7 @@
         <input type="email" id="loginEmail" placeholder="Email" value="bakaryconte80@gmail.com">
         <input type="password" id="loginPassword" placeholder="Mot de passe">
         <button id="doLogin">Se connecter</button>
-        <div style="text-align: center; margin: 1rem 0; color:#aaa;">ou</div>
+        <div style="text-align: center; margin: 1rem 0; color:#ddd;">ou</div>
         <button id="googleAuthBtn" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
         <button id="githubAuthBtn" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
       </div>
@@ -421,21 +443,18 @@
         <input type="email" id="regEmail" placeholder="Email">
         <input type="password" id="regPassword" placeholder="Mot de passe">
         <button id="doRegister">Créer mon compte</button>
-        <div style="text-align: center; margin: 1rem 0; color:#aaa;">ou</div>
+        <div style="text-align: center; margin: 1rem 0; color:#ddd;">ou</div>
         <button id="googleAuthBtn2" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
         <button id="githubAuthBtn2" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
       </div>
     </div>
   </div>
 
-  <!-- Bouton retour flottant (mobile) -->
-  <button class="back-to-home" id="backToHomeBtn"><i class="fas fa-arrow-left"></i></button>
-
   <footer>© 2026 Bakary Conté - Tous droits réservés</footer>
 </div>
 
 <script>
-  // ========== STOCKAGE SESSION ==========
+  // ========== SESSION STORAGE ==========
   const SESSION_KEY = "bakary_session";
   let currentUser = null;
   let users = JSON.parse(localStorage.getItem("bakary_users") || '[]');
@@ -478,7 +497,7 @@
       document.getElementById('dynamicUserArea').innerHTML = `
         <div class="user-area">
           <div class="user-avatar">${currentUser.name?.charAt(0) || 'B'}</div>
-          <span>${currentUser.name || currentUser.email}</span>
+          <span style="color:white;">${currentUser.name || currentUser.email}</span>
           <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></button>
         </div>
       `;
@@ -491,7 +510,6 @@
     }
   }
 
-  // Navigation entre pages
   function initNavigation() {
     document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -508,10 +526,6 @@
         }
       });
     });
-    // Bouton retour flottant
-    document.getElementById('backToHomeBtn')?.addEventListener('click', () => {
-      document.querySelector('.nav-btn[data-page="home"]').click();
-    });
   }
 
   function initApps() {
@@ -522,7 +536,6 @@
     initTimer();
   }
 
-  // Calculatrice
   function initCalculator() {
     const container = document.getElementById('calcButtons');
     if (!container || container.innerHTML) return;
@@ -559,7 +572,6 @@
     });
   }
 
-  // Calendrier
   function renderCalendar() {
     const container = document.getElementById('calendarWidget');
     if (!container) return;
@@ -568,7 +580,7 @@
     function build() {
       const firstDay = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month+1, 0).getDate();
-      let html = `<div class="calendar-header"><button id="prevMonth"><i class="fas fa-chevron-left"></i></button><span>${new Date(year, month).toLocaleString('fr',{month:'long',year:'numeric'})}</span><button id="nextMonth"><i class="fas fa-chevron-right"></i></button></div>
+      let html = `<div class="calendar-header"><button id="prevMonth" style="background:none; border:none; color:#FFB347; font-size:1.2rem; cursor:pointer;"><i class="fas fa-chevron-left"></i></button><span>${new Date(year, month).toLocaleString('fr',{month:'long',year:'numeric'})}</span><button id="nextMonth" style="background:none; border:none; color:#FFB347; font-size:1.2rem; cursor:pointer;"><i class="fas fa-chevron-right"></i></button></div>
       <div class="calendar-weekdays"><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="calendar-days" id="calendarDays"></div>`;
       container.innerHTML = html;
       const daysDiv = document.getElementById('calendarDays');
