@@ -3,695 +3,995 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Bakary Conté | DevStudio Pro</title>
+  <title>Bakary Conté | Universe Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 50%, #24243e 100%);
+      transition: background 0.3s, color 0.3s;
       min-height: 100vh;
-      position: relative;
     }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(circle at 20% 30%, rgba(255, 180, 70, 0.08) 0%, transparent 60%);
-      pointer-events: none;
+    body.light {
+      background: #f5f5f5;
+      color: #1a1a2e;
     }
-
-    .app-window {
+    body.dark {
+      background: linear-gradient(135deg, #0f0c29, #1a1a3e, #24243e);
+      color: #f0f0f0;
+    }
+    .app-container {
       max-width: 1400px;
-      width: 95%;
-      margin: 1.5rem auto;
-      background: rgba(15, 20, 35, 0.85);
-      backdrop-filter: blur(16px);
-      border-radius: 2rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-      overflow: hidden;
-      position: relative;
-      z-index: 2;
+      margin: 0 auto;
+      padding: 20px;
     }
-
-    .main-header {
+    .glass-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid rgba(255,180,70,0.3);
+      margin-bottom: 20px;
+    }
+    body.light .glass-card {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #ddd;
+    }
+    .nav-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(0, 0, 0, 0.5);
-      border-bottom: 1px solid rgba(255, 180, 70, 0.4);
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 15px;
+      background: rgba(0,0,0,0.4);
+      padding: 12px 24px;
+      border-radius: 60px;
+      margin-bottom: 30px;
     }
-
-    .brand h1 {
-      font-size: 1.6rem;
-      font-weight: 800;
+    body.light .nav-bar {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .logo h1 {
+      font-size: 1.5rem;
       background: linear-gradient(135deg, #FFD6A5, #FFB347);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-    .brand p { font-size: 0.7rem; color: #ddd; }
-
-    .nav-tabs {
-      display: flex;
-      gap: 0.5rem;
-      background: rgba(0,0,0,0.3);
-      padding: 0.3rem;
-      border-radius: 60px;
-    }
-    .nav-btn {
-      background: transparent;
+    .btn {
+      background: #FFB347;
       border: none;
-      padding: 0.5rem 1.2rem;
+      padding: 8px 20px;
       border-radius: 40px;
-      color: #eee;
-      font-weight: 500;
       cursor: pointer;
+      font-weight: 600;
       transition: 0.2s;
     }
-    .nav-btn.active { background: #FFB347; color: #1a1a2e; }
-    .nav-btn:hover:not(.active) { background: rgba(255,180,70,0.3); }
-
-    .user-area {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: rgba(255,255,255,0.1);
-      padding: 0.3rem 1rem;
-      border-radius: 60px;
-    }
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(145deg, #FFB347, #FF6B6B);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: white;
-    }
-    .logout-btn {
-      background: rgba(255,80,80,0.2);
-      border: none;
-      color: #FFAAAA;
-      padding: 0.3rem 0.8rem;
-      border-radius: 40px;
-      cursor: pointer;
-    }
-
-    .page { display: none; padding: 2rem; }
-    .page.active { display: block; }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .page-header h2 {
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .card {
-      background: rgba(0, 0, 0, 0.55);
-      border-radius: 1.5rem;
-      padding: 1.2rem;
-      border: 1px solid rgba(255,255,255,0.15);
-      margin-bottom: 1.5rem;
-    }
-    .card h3 {
+    .btn-danger { background: #e74c3c; color: white; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #FFB347;
       color: #FFB347;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      padding-bottom: 0.5rem;
     }
-    .card p, .card span, .card div:not(.social-links-section) {
-      color: #f0f0f0;
+    .admin-badge {
+      background: #FFB347;
+      color: #1a1a2e;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: bold;
     }
-
     .apps-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
+      gap: 20px;
+      margin-top: 20px;
     }
-
-    .auth-card {
-      max-width: 500px;
-      margin: 2rem auto;
-      background: rgba(0,0,0,0.7);
-      border-radius: 2rem;
-      padding: 2rem;
-      border: 1px solid rgba(255,180,70,0.5);
-    }
-    .auth-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
-    .auth-tab { background: none; border: none; padding: 0.5rem 1rem; color: #ddd; cursor: pointer; }
-    .auth-tab.active { color: #FFB347; border-bottom: 2px solid #FFB347; }
-    .auth-form { display: none; }
-    .auth-form.active { display: block; }
-    .auth-form input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 1rem;
-      color: white;
-    }
-    .auth-form input::placeholder { color: #ccc; }
-    .auth-form button {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 1rem 0;
-      background: #FFB347;
-      border: none;
-      border-radius: 2rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-oauth {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 0.7rem;
-      margin: 0.5rem 0;
-      background: #2a2a4e;
-      border: 1px solid #FFB34755;
-      border-radius: 2rem;
-      color: white;
-      cursor: pointer;
-    }
-
-    /* Réseaux sociaux */
-    .social-links-section {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-top: 0.5rem;
-    }
-    .social-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 55px;
-      height: 55px;
-      background: rgba(255,180,70,0.2);
-      border-radius: 50%;
-      font-size: 2rem;
-      color: #FFB347;
+    .app-card {
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      padding: 20px;
       transition: 0.2s;
-      border: 1px solid rgba(255,180,70,0.4);
+      cursor: pointer;
     }
-    .social-icon:hover {
+    .app-card.logo-only {
+      text-align: center;
+      cursor: pointer;
+    }
+    .app-card.logo-only i {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .app-card.logo-only:hover {
+      background: rgba(255,180,70,0.2);
+      transform: translateY(-5px);
+    }
+    .app-card h4 { margin-bottom: 15px; color: #FFB347; }
+    .hidden { display: none; }
+    input, textarea, select {
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      background: rgba(255,255,255,0.9);
+      width: 100%;
+      margin: 8px 0;
+    }
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #FFB347;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 10px;
+    }
+    .chat-box {
+      height: 300px;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.2);
+      border-radius: 16px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 20px;
+      max-width: 80%;
+    }
+    .message.mine {
       background: #FFB347;
       color: #1a1a2e;
-      transform: translateY(-3px);
-    }
-
-    /* Calculatrice */
-    .calc-screen {
-      background: #0f0f1a;
-      padding: 1rem;
-      border-radius: 1rem;
+      margin-left: auto;
       text-align: right;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: white;
+    }
+    .message.theirs {
+      background: rgba(255,255,255,0.2);
     }
     .calc-buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.5rem;
+      gap: 8px;
+      margin-top: 10px;
     }
     .calc-btn {
-      background: #1a1a2e;
+      background: rgba(255,180,70,0.2);
       border: none;
-      padding: 0.7rem;
-      border-radius: 0.8rem;
-      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 1.2rem;
       cursor: pointer;
+      transition: 0.1s;
     }
-    .calc-btn.operator { background: #FFB34733; color: #FFB347; }
-    .calc-btn.equal { background: #FFB347; color: #1a1a2e; }
-
-    /* Calendrier */
+    .calc-btn:hover { background: #FFB347; color: #1a1a2e; }
+    .calc-screen {
+      background: rgba(0,0,0,0.5);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: right;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
     .calendar-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-      color: white;
+      margin-bottom: 15px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .calendar-weekdays, .calendar-days {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       text-align: center;
-      gap: 0.3rem;
+      gap: 5px;
     }
-    .calendar-weekdays div { color: #FFB347; font-weight: bold; padding: 0.5rem; }
     .calendar-days div {
-      padding: 0.5rem;
-      border-radius: 50%;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .calendar-days div:hover { background: #FFB34755; }
+    .weather-search {
+      position: relative;
+    }
+    .suggestions-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #1a1a2e;
+      border-radius: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 10;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border: 1px solid #FFB347;
+    }
+    .suggestions-list li {
+      padding: 8px 12px;
       cursor: pointer;
       color: white;
     }
-    .calendar-days div:hover { background: #FFB34755; }
-
-    /* Météo */
-    .weather-info { text-align: center; color: white; }
-    .weather-temp { font-size: 2.5rem; font-weight: bold; color: #FFB347; }
-
-    /* Notes */
-    .note-item {
-      background: rgba(255,255,255,0.1);
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      border-radius: 0.5rem;
+    .suggestions-list li:hover {
+      background: #FFB347;
+      color: #1a1a2e;
+    }
+    body.light .suggestions-list {
+      background: white;
+      color: #1a1a2e;
+      border-color: #FFB347;
+    }
+    body.light .suggestions-list li {
+      color: #1a1a2e;
+    }
+    .timer-display, .chrono-display {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 15px 0;
+      font-family: monospace;
+    }
+    .flex-buttons {
       display: flex;
-      justify-content: space-between;
-      color: white;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    #noteInput::placeholder { color: #aaa; }
-
-    @media (max-width: 768px) {
-      .main-header { flex-direction: column; }
-      .page { padding: 1rem; }
-      .page-header { flex-direction: column; align-items: flex-start; }
+    .clock-display {
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+      padding: 15px;
+      border-radius: 16px;
+      font-family: monospace;
     }
-    .hidden { display: none; }
-    footer { text-align: center; padding: 1rem; font-size: 0.7rem; color: #ccc; border-top: 1px solid rgba(255,255,255,0.1); }
+    .auth-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255,180,70,0.3);
+    }
+    .auth-tab {
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      color: #aaa;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .auth-tab.active {
+      color: #FFB347;
+      border-bottom: 2px solid #FFB347;
+    }
+    .auth-form {
+      display: none;
+    }
+    .auth-form.active {
+      display: block;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    body.light footer {
+      border-top-color: #ddd;
+    }
+    @media (max-width: 700px) {
+      .apps-grid { grid-template-columns: 1fr; }
+      .nav-bar { flex-direction: column; align-items: stretch; text-align: center; }
+    }
   </style>
 </head>
-<body>
+<body class="dark">
+<div class="app-container" id="app">
 
-<div class="app-window">
-  <div class="main-header">
-    <div class="brand">
-      <h1><i class="fas fa-code"></i> Bakary Conté</h1>
-      <p>FullStack Creator • bakaryconte80@gmail.com</p>
+  <!-- ÉCRAN DE CONNEXION / INSCRIPTION -->
+  <div id="loginScreen" class="glass-card" style="max-width: 450px; margin: 50px auto;">
+    <div style="text-align:center; margin-bottom:20px;">
+      <i class="fas fa-code" style="font-size: 3rem; color: #FFB347;"></i>
+      <h2 style="color:#FFB347;">Bakary Conté</h2>
+      <p style="color:#aaa;">FullStack Creator</p>
     </div>
-    <div id="dynamicUserArea"></div>
+    
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-auth="login">Connexion</button>
+      <button class="auth-tab" data-auth="register">Créer un compte</button>
+    </div>
+    
+    <!-- Formulaire de connexion -->
+    <div id="loginForm" class="auth-form active">
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Mot de passe">
+      <button id="doLoginBtn" class="btn" style="width:100%; margin:10px 0;">Se connecter</button>
+    </div>
+    
+    <!-- Formulaire d'inscription -->
+    <div id="registerForm" class="auth-form">
+      <input type="text" id="regName" placeholder="Nom complet">
+      <input type="email" id="regEmail" placeholder="Email">
+      <input type="password" id="regPassword" placeholder="Mot de passe">
+      <input type="password" id="regConfirmPassword" placeholder="Confirmer le mot de passe">
+      <button id="doRegisterBtn" class="btn" style="width:100%; margin:10px 0;">Créer mon compte</button>
+    </div>
+    
+    <div style="text-align:center; margin:15px 0; color:#aaa;">ou</div>
+    <button id="googleLoginBtn" class="btn-outline" style="width:100%; margin:5px 0;"><i class="fab fa-google"></i> Google</button>
+    <button id="githubLoginBtn" class="btn-outline" style="width:100%; margin:5px 0;"><i class="fab fa-github"></i> GitHub</button>
+    <button id="guestLoginBtn" class="btn-outline" style="width:100%; margin-top:15px;">👤 Entrer en invité</button>
   </div>
 
-  <!-- Navigation principale -->
-  <div style="padding: 0 2rem; border-bottom: 1px solid rgba(255,180,70,0.2);">
-    <div class="nav-tabs" id="mainNav">
-      <button class="nav-btn active" data-page="home"><i class="fas fa-home"></i> Accueil</button>
-      <button class="nav-btn" data-page="apps"><i class="fas fa-th"></i> Applications</button>
+  <!-- APPLICATION APRÈS CONNEXION -->
+  <div id="mainApp" class="hidden">
+    <div class="nav-bar">
+      <div class="logo">
+        <h1><i class="fas fa-crown"></i> Bakary Conté</h1>
+        <p style="font-size:12px;">officiel</p>
+      </div>
+      <div><img id="navAvatar" style="width:32px; height:32px; border-radius:50%;" src=""><span id="userNameSpan" style="margin-left:8px;"></span> <span id="userRoleSpan"></span></div>
+      <div>
+        <button id="settingsBtn" class="btn-outline" style="margin-right:5px;"><i class="fas fa-cog"></i></button>
+        <button id="logoutBtn" class="btn-danger"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
     </div>
+
+    <!-- ONGLETS -->
+    <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; justify-content:center;">
+      <button id="tabHome" class="btn">🏠 Accueil</button>
+      <button id="tabApps" class="btn-outline">📱 Apps</button>
+      <button id="tabChat" class="btn-outline">💬 Chat</button>
+      <button id="tabSettings" class="btn-outline">⚙️ Moi</button>
+    </div>
+
+    <!-- ACCUEIL -->
+    <div id="homePage">
+      <div class="glass-card">
+        <h3>✨ <span id="welcomeName"></span>, bienvenue</h3>
+        <p>Dans l'univers Conté, la technologie rencontre la créativité.</p>
+        <div style="margin-top:15px;"><i class="fas fa-map-marker-alt"></i> Conakry, Guinée | <i class="fas fa-phone"></i> +224 610 175 277</div>
+      </div>
+    </div>
+
+    <!-- APPLICATIONS -->
+    <div id="appsPage" class="hidden">
+      <div class="apps-grid" id="appsContainer"></div>
+    </div>
+
+    <!-- CHAT -->
+    <div id="chatPage" class="hidden">
+      <div class="glass-card">
+        <h3><i class="fas fa-comments"></i> Discussion</h3>
+        <div id="chatMessages" class="chat-box"></div>
+        <div style="display:flex; gap:10px;">
+          <input type="text" id="chatInput" placeholder="Votre message..." style="flex:1;">
+          <button id="sendChatBtn" class="btn">Envoyer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARAMÈTRES -->
+    <div id="settingsPage" class="hidden">
+      <div class="glass-card">
+        <h3><i class="fas fa-user-edit"></i> Mon profil</h3>
+        <div style="text-align:center;">
+          <div id="profilePicPreview" class="profile-pic"><i class="fas fa-user"></i></div>
+          <input type="file" id="profilePicUpload" accept="image/*">
+          <button id="saveProfilePicBtn" class="btn" style="margin-top:10px;">Changer photo</button>
+        </div>
+        <input type="text" id="settingsName" placeholder="Nom">
+        <input type="email" id="settingsEmail" placeholder="Email">
+        <input type="password" id="settingsPassword" placeholder="Nouveau mot de passe">
+        <button id="saveSettingsBtn" class="btn">💾 Enregistrer</button>
+        <hr style="margin:20px 0;">
+        <h4>🎨 Apparence</h4>
+        <select id="themeSelect">
+          <option value="dark">Sombre</option>
+          <option value="light">Clair</option>
+        </select>
+        <button id="applyThemeBtn" class="btn-outline" style="margin-top:10px;">Appliquer</button>
+      </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer>
+      © 2026 Bakary Conté - Tous droits réservés
+    </footer>
   </div>
-
-  <!-- Page d'accueil -->
-  <div id="homePage" class="page active">
-    <div class="page-header">
-      <h2><i class="fas fa-home"></i> Tableau de bord</h2>
-    </div>
-    <div id="homeContent">
-      <div class="card">
-        <div style="text-align: center; padding: 1rem;">
-          <div style="width: 100px; height: 100px; background: linear-gradient(145deg, #FFB347, #FF6B6B); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white;">BC</div>
-          <h2 style="color:#FFB347;">Bakary Conté</h2>
-          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-calendar-alt"></i> 19 ans · Développeur Full-Stack</p>
-          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
-          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-envelope"></i> bakaryconte80@gmail.com</p>
-          <p style="margin: 0.5rem 0; color:#f0f0f0;"><i class="fas fa-phone"></i> +224 610 175 277</p>
-        </div>
-      </div>
-
-      <!-- SECTION RÉSEAUX SOCIAUX (sans GitHub) -->
-      <div class="card">
-        <h3><i class="fas fa-share-alt"></i> Mes réseaux sociaux</h3>
-        <div class="social-links-section">
-          <a href="https://www.tiktok.com/@bakary.73" target="_blank" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.snapchat.com/add/bakary_73" target="_blank" class="social-icon" title="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
-        </div>
-        <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #ddd;">
-          <i class="fab fa-tiktok"></i> @bakary.73 &nbsp;|&nbsp;
-          <i class="fab fa-snapchat-ghost"></i> bakary_73
-        </p>
-      </div>
-
-      <div class="card">
-        <h3><i class="fas fa-user-astronaut"></i> À propos</h3>
-        <p>Je m'appelle <strong>Bakary Conté</strong>, jeune développeur passionné de 19 ans. Je crée des applications web modernes, sécurisées et intuitives. Bienvenue dans mon univers digital !</p>
-        <div style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">React/Next</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">TypeScript</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">Node.js</span>
-          <span style="background:#FFB34722; padding:0.3rem 1rem; border-radius:40px; color:#f0f0f0;">Python</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-rocket"></i> Message de bienvenue</h3>
-        <p style="font-size: 1.1rem; color:#f0f0f0;">✨ <strong>Bienvenue dans l'univers Conté</strong> ✨<br>Ici, la technologie rencontre la créativité. Explorez mes applications et n'hésitez pas à me contacter !</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Page Applications -->
-  <div id="appsPage" class="page">
-    <div class="page-header">
-      <h2><i class="fas fa-th"></i> Mes Applications</h2>
-    </div>
-    <div class="apps-grid">
-      <div class="card">
-        <h3><i class="fas fa-calculator"></i> Calculatrice</h3>
-        <div class="calculator">
-          <div class="calc-screen" id="calcScreen">0</div>
-          <div class="calc-buttons" id="calcButtons"></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-calendar-alt"></i> Calendrier</h3>
-        <div id="calendarWidget"></div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-cloud-sun"></i> Météo</h3>
-        <div class="weather-info">
-          <p><i class="fas fa-map-marker-alt"></i> Conakry, Guinée</p>
-          <div class="weather-temp" id="weatherTemp">--°C</div>
-          <p id="weatherDesc">Chargement...</p>
-        </div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-sticky-note"></i> Notes rapides</h3>
-        <div style="display: flex; gap: 0.5rem;">
-          <input type="text" id="noteInput" placeholder="Nouvelle note..." style="flex:1; padding:0.5rem; border-radius:0.8rem; border:none; background:#2a2a4e; color:white;">
-          <button id="addNoteBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">+</button>
-        </div>
-        <div id="notesList" style="margin-top: 1rem;"></div>
-      </div>
-      <div class="card">
-        <h3><i class="fas fa-hourglass-half"></i> Minuteur</h3>
-        <div style="text-align: center;">
-          <div style="font-size: 2rem; font-weight: bold; margin: 1rem 0; color:white;" id="timerDisplay">00:00</div>
-          <div style="display: flex; gap: 0.5rem; justify-content: center;">
-            <input type="number" id="timerMinutes" placeholder="Minutes" style="width:80px; padding:0.5rem; border-radius:0.8rem; background:#2a2a4e; border:none; color:white;">
-            <button id="startTimerBtn" style="background:#FFB347; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Démarrer</button>
-            <button id="resetTimerBtn" style="background:#555; border:none; padding:0.5rem 1rem; border-radius:0.8rem; cursor:pointer;">Reset</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Page d'authentification -->
-  <div id="authPage">
-    <div class="auth-card">
-      <div style="text-align: center; margin-bottom: 1rem;">
-        <i class="fas fa-laptop-code" style="font-size: 3rem; color: #FFB347;"></i>
-        <h2 style="color:white;">Espace Sécurisé</h2>
-      </div>
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-auth="login">Connexion</button>
-        <button class="auth-tab" data-auth="register">Créer un compte</button>
-      </div>
-      <div id="loginForm" class="auth-form active">
-        <input type="email" id="loginEmail" placeholder="Email" value="bakaryconte80@gmail.com">
-        <input type="password" id="loginPassword" placeholder="Mot de passe">
-        <button id="doLogin">Se connecter</button>
-        <div style="text-align: center; margin: 1rem 0; color:#ddd;">ou</div>
-        <button id="googleAuthBtn" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
-        <button id="githubAuthBtn" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
-      </div>
-      <div id="registerForm" class="auth-form">
-        <input type="text" id="regNom" placeholder="Nom">
-        <input type="text" id="regPrenom" placeholder="Prénom">
-        <input type="date" id="regBirth">
-        <input type="tel" id="regPhone" placeholder="Téléphone">
-        <input type="email" id="regEmail" placeholder="Email">
-        <input type="password" id="regPassword" placeholder="Mot de passe">
-        <button id="doRegister">Créer mon compte</button>
-        <div style="text-align: center; margin: 1rem 0; color:#ddd;">ou</div>
-        <button id="googleAuthBtn2" class="btn-oauth"><i class="fab fa-google"></i> Google</button>
-        <button id="githubAuthBtn2" class="btn-oauth"><i class="fab fa-github"></i> GitHub</button>
-      </div>
-    </div>
-  </div>
-
-  <footer>© 2026 Bakary Conté - Tous droits réservés</footer>
 </div>
 
 <script>
-  // ========== SESSION STORAGE ==========
-  const SESSION_KEY = "bakary_session";
+  let users = JSON.parse(localStorage.getItem('bakary_users') || '[]');
+  let messages = JSON.parse(localStorage.getItem('bakary_messages') || '[]');
   let currentUser = null;
-  let users = JSON.parse(localStorage.getItem("bakary_users") || '[]');
 
-  function saveSession(user) {
-    const session = { uid: user.uid, email: user.email, name: user.name, provider: user.provider };
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    currentUser = user;
+  const ADMIN_EMAIL = "admin@bakarypro.com";
+  const ADMIN_PASSWORD = "SuperAdmin2026";
+
+  if (!users.find(u => u.email === ADMIN_EMAIL)) {
+    users.push({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: "Admin Bakary", role: "admin", avatar: "", theme: "dark" });
+    localStorage.setItem('bakary_users', JSON.stringify(users));
   }
 
-  function loadSession() {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (raw) {
-      try {
-        const session = JSON.parse(raw);
-        currentUser = session;
-        return session;
-      } catch(e) {}
+  function saveUsers() { localStorage.setItem('bakary_users', JSON.stringify(users)); }
+  function saveMessages() { localStorage.setItem('bakary_messages', JSON.stringify(messages)); }
+
+  // Fonction d'inscription
+  function registerUser(name, email, password) {
+    if (users.find(u => u.email === email)) {
+      alert("Cet email est déjà utilisé");
+      return false;
     }
-    return null;
+    if (password.length < 4) {
+      alert("Le mot de passe doit contenir au moins 4 caractères");
+      return false;
+    }
+    const newUser = { email: email, password: password, name: name, role: "member", avatar: "", theme: "dark" };
+    users.push(newUser);
+    saveUsers();
+    alert("Compte créé avec succès ! Vous pouvez maintenant vous connecter.");
+    return true;
+  }
+
+  function login(email, password) {
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      let admin = users.find(u => u.email === email);
+      if (!admin) {
+        admin = { email: ADMIN_EMAIL, password: ADMIN_PASSWORD, name: "Admin Bakary", role: "admin", avatar: "", theme: "dark" };
+        users.push(admin);
+        saveUsers();
+      }
+      currentUser = admin;
+      localStorage.setItem('bakary_session', JSON.stringify({ email: currentUser.email, role: currentUser.role }));
+      applyTheme(currentUser.theme || 'dark');
+      renderApp();
+      return true;
+    }
+    
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) { alert("Email ou mot de passe incorrect"); return false; }
+    currentUser = user;
+    localStorage.setItem('bakary_session', JSON.stringify({ email: currentUser.email, role: currentUser.role }));
+    applyTheme(currentUser.theme || 'dark');
+    renderApp();
+    return true;
+  }
+
+  function loginWithGoogle() {
+    const fakeEmail = prompt("🔐 Connexion Google\nEntrez votre email :");
+    if (fakeEmail && fakeEmail.includes('@')) {
+      let user = users.find(u => u.email === fakeEmail);
+      if (!user) {
+        user = { email: fakeEmail, password: 'google', name: fakeEmail.split('@')[0], role: 'member', avatar: '', theme: 'dark' };
+        users.push(user); saveUsers();
+      }
+      currentUser = user;
+      localStorage.setItem('bakary_session', JSON.stringify({ email: currentUser.email, role: currentUser.role }));
+      applyTheme(currentUser.theme || 'dark');
+      renderApp();
+    }
+  }
+
+  function loginWithGithub() {
+    const fakeUser = prompt("🔐 Connexion GitHub\nPseudo :");
+    if (fakeUser) {
+      const fakeEmail = fakeUser + '@github.com';
+      let user = users.find(u => u.email === fakeEmail);
+      if (!user) {
+        user = { email: fakeEmail, password: 'github', name: fakeUser, role: 'member', avatar: '', theme: 'dark' };
+        users.push(user); saveUsers();
+      }
+      currentUser = user;
+      localStorage.setItem('bakary_session', JSON.stringify({ email: currentUser.email, role: currentUser.role }));
+      applyTheme(currentUser.theme || 'dark');
+      renderApp();
+    }
+  }
+
+  function guestLogin() {
+    const guestId = 'guest_' + Date.now();
+    const guest = { email: guestId, name: 'Invité', role: 'guest', avatar: '', theme: 'dark' };
+    users.push(guest); saveUsers();
+    currentUser = guest;
+    localStorage.setItem('bakary_session', JSON.stringify({ email: currentUser.email, role: currentUser.role }));
+    applyTheme('dark');
+    renderApp();
   }
 
   function logout() {
-    localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem('bakary_session');
     currentUser = null;
-    document.getElementById('authPage').style.display = 'block';
-    document.getElementById('homePage').classList.remove('active');
-    document.getElementById('appsPage').classList.remove('active');
-    document.getElementById('dynamicUserArea').innerHTML = '';
-    updateUIForAuth();
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('mainApp').classList.add('hidden');
   }
 
-  function updateUIForAuth() {
-    if (currentUser) {
-      document.getElementById('authPage').style.display = 'none';
-      document.getElementById('homePage').classList.add('active');
-      document.getElementById('appsPage').classList.remove('active');
-      document.querySelector('.nav-btn[data-page="home"]').classList.add('active');
-      document.querySelector('.nav-btn[data-page="apps"]').classList.remove('active');
-      document.getElementById('dynamicUserArea').innerHTML = `
-        <div class="user-area">
-          <div class="user-avatar">${currentUser.name?.charAt(0) || 'B'}</div>
-          <span style="color:white;">${currentUser.name || currentUser.email}</span>
-          <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></button>
-        </div>
-      `;
-      document.getElementById('logoutBtn')?.addEventListener('click', logout);
-      initApps();
+  function renderApp() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    document.getElementById('userNameSpan').innerText = currentUser.name || currentUser.email.split('@')[0];
+    document.getElementById('welcomeName').innerText = currentUser.name || 'Visiteur';
+    const roleSpan = document.getElementById('userRoleSpan');
+    roleSpan.innerHTML = currentUser.role === 'admin' ? '<span class="admin-badge">Admin</span>' : '<span class="admin-badge" style="background:#555;">' + (currentUser.role === 'guest' ? 'Invité' : 'Membre') + '</span>';
+    
+    if (currentUser.avatar) {
+      document.getElementById('navAvatar').src = currentUser.avatar;
+      document.getElementById('navAvatar').style.display = 'inline-block';
+      document.getElementById('profilePicPreview').innerHTML = `<img src="${currentUser.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
     } else {
-      document.getElementById('authPage').style.display = 'block';
-      document.getElementById('homePage').classList.remove('active');
-      document.getElementById('appsPage').classList.remove('active');
+      document.getElementById('navAvatar').style.display = 'none';
+      document.getElementById('profilePicPreview').innerHTML = '<i class="fas fa-user"></i>';
+    }
+    
+    if (currentUser.role !== 'guest') loadApplications();
+    else document.getElementById('appsContainer').innerHTML = '<div class="glass-card"><p>🔒 Réservé aux membres. Connecte-toi avec Google/GitHub ou crée un compte.</p></div>';
+    
+    loadChatMessages();
+    document.getElementById('settingsName').value = currentUser.name || '';
+    document.getElementById('settingsEmail').value = currentUser.email;
+    document.getElementById('themeSelect').value = currentUser.theme || 'dark';
+  }
+
+  const paysListe = [
+    "Conakry", "France", "Guinée", "Sénégal", "Mali", "Côte d'Ivoire", "Burkina Faso", "Niger", "Bénin", "Togo",
+    "Paris", "Lyon", "Marseille", "Dakar", "Abidjan", "Bamako", "Ouagadougou", "Niamey", "Cotonou", "Lomé",
+    "Canada", "Montréal", "Québec", "Belgique", "Bruxelles", "Suisse", "Genève", "Londres", "New York", "Tokyo",
+    "Pékin", "Moscou", "Berlin", "Rome", "Madrid", "Lisbonne", "Alger", "Tunis", "Casablanca", "Le Caire",
+    "Londres", "Manchester", "Liverpool", "Edimbourg", "Dublin", "Sydney", "Melbourne", "Perth", "Auckland", "Wellington"
+  ];
+
+  function initWeatherWithSuggestions() {
+    setTimeout(() => {
+      const cityInput = document.getElementById('cityInput');
+      const suggestionsDiv = document.getElementById('citySuggestions');
+      if (!cityInput) return;
+      
+      cityInput.addEventListener('input', function() {
+        const value = this.value.toLowerCase();
+        const suggestions = paysListe.filter(p => p.toLowerCase().includes(value));
+        suggestionsDiv.innerHTML = '';
+        if (suggestions.length > 0 && value.length > 0) {
+          const ul = document.createElement('ul');
+          ul.className = 'suggestions-list';
+          suggestions.slice(0, 10).forEach(s => {
+            const li = document.createElement('li');
+            li.textContent = s;
+            li.onclick = () => {
+              cityInput.value = s;
+              suggestionsDiv.innerHTML = '';
+              document.getElementById('getWeatherBtn').click();
+            };
+            ul.appendChild(li);
+          });
+          suggestionsDiv.appendChild(ul);
+        }
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!cityInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+          suggestionsDiv.innerHTML = '';
+        }
+      });
+    }, 100);
+  }
+
+  // HORLOGE avec recherche de pays
+  let horlogeInterval = null;
+  let currentTimezone = "Africa/Conakry";
+  
+  function updateClock() {
+    const clockDiv = document.getElementById('liveClock');
+    if (clockDiv) {
+      try {
+        const options = { timeZone: currentTimezone, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        const time = new Date().toLocaleTimeString('fr-FR', options);
+        clockDiv.innerHTML = time;
+      } catch(e) {
+        clockDiv.innerHTML = new Date().toLocaleTimeString('fr-FR');
+      }
+    }
+  }
+  
+  function startClock() {
+    if (horlogeInterval) clearInterval(horlogeInterval);
+    updateClock();
+    horlogeInterval = setInterval(updateClock, 1000);
+  }
+  
+  function changeClockTimezone() {
+    const searchInput = document.getElementById('clockCountrySearch');
+    if (searchInput) {
+      const country = searchInput.value.trim();
+      const timezoneMap = {
+        "conakry": "Africa/Conakry", "guinée": "Africa/Conakry", "france": "Europe/Paris", "paris": "Europe/Paris",
+        "londres": "Europe/London", "angleterre": "Europe/London", "new york": "America/New_York", "usa": "America/New_York",
+        "tokyo": "Asia/Tokyo", "japon": "Asia/Tokyo", "moscou": "Europe/Moscow", "russe": "Europe/Moscow",
+        "dakar": "Africa/Dakar", "sénégal": "Africa/Dakar", "abidjan": "Africa/Abidjan", "côte d'ivoire": "Africa/Abidjan",
+        "alger": "Africa/Algiers", "algerie": "Africa/Algiers", "tunis": "Africa/Tunis", "tunisie": "Africa/Tunis",
+        "casablanca": "Africa/Casablanca", "maroc": "Africa/Casablanca", "le caire": "Africa/Cairo", "egypte": "Africa/Cairo"
+      };
+      const key = country.toLowerCase();
+      if (timezoneMap[key]) {
+        currentTimezone = timezoneMap[key];
+        updateClock();
+      } else {
+        alert("Pays non trouvé. Essayez : France, USA, Japon, Sénégal, Maroc...");
+      }
     }
   }
 
-  function initNavigation() {
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const page = btn.getAttribute('data-page');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        if (page === 'home') {
-          document.getElementById('homePage').classList.add('active');
-          document.getElementById('appsPage').classList.remove('active');
-        } else {
-          document.getElementById('homePage').classList.remove('active');
-          document.getElementById('appsPage').classList.add('active');
-          initApps();
+  // MINUTEUR
+  let timerInterval = null;
+  let timerSeconds = 0;
+  function updateTimerDisplay() {
+    const display = document.getElementById('timerDisplay');
+    if (display) {
+      const mins = Math.floor(timerSeconds / 60);
+      const secs = timerSeconds % 60;
+      display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    const input = document.getElementById('timerMinutes');
+    const minutes = parseInt(input.value) || 0;
+    if (minutes <= 0) {
+      alert("Entrez un nombre de minutes valide");
+      return;
+    }
+    timerSeconds = minutes * 60;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      if (timerSeconds > 0) {
+        timerSeconds--;
+        updateTimerDisplay();
+        if (timerSeconds === 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert("⏰ Temps écoulé !");
         }
-      });
-    });
+      } else {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }, 1000);
+  }
+  function resetTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+    timerSeconds = 0;
+    updateTimerDisplay();
+    document.getElementById('timerMinutes').value = '';
   }
 
-  function initApps() {
+  // CHRONOMÈTRE
+  let chronoInterval = null;
+  let chronoSeconds = 0;
+  function updateChronoDisplay() {
+    const display = document.getElementById('chronoDisplay');
+    if (display) {
+      const hours = Math.floor(chronoSeconds / 3600);
+      const mins = Math.floor((chronoSeconds % 3600) / 60);
+      const secs = chronoSeconds % 60;
+      display.textContent = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+  function startChrono() {
+    if (chronoInterval) clearInterval(chronoInterval);
+    chronoInterval = setInterval(() => {
+      chronoSeconds++;
+      updateChronoDisplay();
+    }, 1000);
+  }
+  function pauseChrono() {
+    if (chronoInterval) {
+      clearInterval(chronoInterval);
+      chronoInterval = null;
+    }
+  }
+  function resetChrono() {
+    if (chronoInterval) {
+      clearInterval(chronoInterval);
+      chronoInterval = null;
+    }
+    chronoSeconds = 0;
+    updateChronoDisplay();
+  }
+
+  function loadApplications() {
+    const container = document.getElementById('appsContainer');
+    container.innerHTML = `
+      <!-- LOGOS CLIQUABLES -->
+      <div class="app-card logo-only" data-url="https://youtube.com"><i class="fab fa-youtube" style="color:#FF0000;"></i><h4>YouTube</h4></div>
+      <div class="app-card logo-only" data-url="https://google.com"><i class="fab fa-google" style="color:#4285F4;"></i><h4>Google</h4></div>
+      <div class="app-card logo-only" data-url="https://instagram.com"><i class="fab fa-instagram" style="color:#E4405F;"></i><h4>Instagram</h4></div>
+      <div class="app-card logo-only" data-url="https://snapchat.com"><i class="fab fa-snapchat" style="color:#FFFC00;"></i><h4>Snapchat</h4></div>
+      <div class="app-card logo-only" data-url="https://facebook.com"><i class="fab fa-facebook" style="color:#1877F2;"></i><h4>Facebook</h4></div>
+      <div class="app-card logo-only" data-url="https://chat.openai.com"><i class="fas fa-robot" style="color:#10a37f;"></i><h4>ChatGPT</h4></div>
+      <div class="app-card logo-only" data-url="https://sts.cned.fr/adfs/ls/?SAMLRequest=fZFLb4MwEIT%2FCvI9mLiQhxWQaHJopLRFhfbQS2VgKZbApl7Tx78vgTZNLznv7MzstxsUbdPxuLe1eoC3HtA6n22jkI%2BDkPRGcS1QIleiBeS24Gl8e%2BDM9XhntNWFbogTI4KxUqutVti3YFIw77KAx4dDSGprO%2BSUQqVNK44qt1BQupWhaS3zXDdgaxdR06Mzo8l9mhFnN1SRapT%2FWaDF064oK6QNUuLsdyF5gaAS%2BdKvlqzM1x5U83wlCp%2F5PqwWrFr7gwyxh71CK5QNCfPYYub5M%2BZlbM6vAh4Ez8RJfk66lqqU6vXy%2FfkkQn6TZclsqv0EBsfKg4BEmyNFPgabM66XbcUvTBJdQIcndHRDz2KmzI7fDb77XaIbWXw5cdPoj60BYSEkc0KjaeX%2F46Nv&RelayState=ss%3Amem%3Ae874ec6a1569000118ed6e0bf213b339732fbff4a7f6e01cf528047d3b3a72eb&SigAlg=http%3A%2F%2Fwww.w3.org%2F2001%2F04%2Fxmldsig-more%23rsa-sha256&Signature=ISDWAegt%2Fw%2FHlXVyno%2BDxXFHqxsB8oE5lxGKiYXySbgwbWry%2BU4qu2sNGITstN8sVe0YfMcjCAwaqA5np3tZEEbpg6jR1lFo%2Fqm7zwtMmVDQ%2FZ7aWR9pVGHeO5uSJpPr2qJJ8sOvP9pyJDqKdGjEvvpZcA8GgY2BgCzIjovtTSPgi6dtmxnIz7pFq2Eb4ghSZKeRT1P1HtNkORA86vpar7fmB8%2FzcYcImUW3hUEnxepV6k8Y0HDzrJWvlqeIDQx%2FAP4FaG%2BK%2BT2PouNs%2FJXTrip1cz6Phz68gJ74YbUmqAdDDAsWCQDh0WnywUzKfOoa9mGvlM73c2FoGhGjtlDX%2FeNWQ7LV6emCWhFxcxwfokEZQVJqM9dBPE7tFIx5sI7JwWlIEdgRenE%2FRh5vE8Hyp5O1vtAYBoiH6v3si%2FYEklq3MhoTEh9MAFJDXnKaZly7x9uNZOzMIGVzydMNwqGbDjMWCPO6CjfWZWrKypa3W9PxboHGBkAmqmii3TpMaNc2"><i class="fas fa-graduation-cap" style="color:#0055A2;"></i><h4>CNED</h4></div>
+      
+      <!-- HORLOGE AVEC RECHERCHE -->
+      <div class="glass-card app-card"><h4><i class="fas fa-clock"></i> Horloge mondiale</h4>
+        <div class="clock-display" id="liveClock">--:--:--</div>
+        <div style="display:flex; gap:10px; margin-top:15px;">
+          <input type="text" id="clockCountrySearch" placeholder="Entrez un pays (France, USA, Japon...)" style="flex:1;">
+          <button id="changeClockBtn" class="btn">Changer</button>
+        </div>
+        <p style="text-align:center; font-size:11px; margin-top:10px;">Fuseau actuel: Afrique/Conakry</p>
+      </div>
+      
+      <!-- MINUTEUR -->
+      <div class="glass-card app-card"><h4><i class="fas fa-hourglass-half"></i> Minuteur</h4>
+        <div class="timer-display" id="timerDisplay">00:00</div>
+        <div class="flex-buttons">
+          <input type="number" id="timerMinutes" placeholder="Minutes" style="width:100px;">
+          <button class="btn" id="startTimerBtn">Démarrer</button>
+          <button class="btn-outline" id="resetTimerBtn">Reset</button>
+        </div>
+      </div>
+      
+      <!-- CHRONOMÈTRE -->
+      <div class="glass-card app-card"><h4><i class="fas fa-stopwatch"></i> Chronomètre</h4>
+        <div class="chrono-display" id="chronoDisplay">00:00:00</div>
+        <div class="flex-buttons">
+          <button class="btn" id="startChronoBtn">Start</button>
+          <button class="btn-outline" id="pauseChronoBtn">Pause</button>
+          <button class="btn-outline" id="resetChronoBtn">Reset</button>
+        </div>
+      </div>
+      
+      <!-- CALCULATRICE -->
+      <div class="glass-card app-card"><h4><i class="fas fa-calculator"></i> Calculatrice</h4>
+        <div class="calc-screen" id="calcScreen">0</div>
+        <div class="calc-buttons" id="calcButtons"></div>
+      </div>
+      
+      <!-- MÉTÉO -->
+      <div class="glass-card app-card"><h4><i class="fas fa-cloud-sun"></i> Météo mondiale</h4>
+        <div class="weather-search">
+          <input type="text" id="cityInput" placeholder="Nom du pays ou ville" value="Conakry" autocomplete="off">
+          <div id="citySuggestions"></div>
+        </div>
+        <button id="getWeatherBtn" class="btn" style="margin-top:5px;">Rechercher</button>
+        <div id="weatherResult" style="margin-top:15px; text-align:center;"></div>
+      </div>
+      
+      <!-- BLOC-NOTES -->
+      <div class="glass-card app-card"><h4><i class="fas fa-sticky-note"></i> Bloc-notes</h4>
+        <textarea id="noteTextarea" rows="5" style="width:100%; border-radius:12px;"></textarea>
+        <button id="saveNoteBtn" class="btn" style="margin-top:5px;">💾 Enregistrer</button>
+        <div id="noteStatus" style="font-size:12px; margin-top:5px;"></div>
+      </div>
+      
+      <!-- CALENDRIER -->
+      <div class="glass-card app-card"><h4><i class="fas fa-calendar-alt"></i> Calendrier (2020-2040)</h4>
+        <div class="calendar-header">
+          <button id="prevYearBtn" class="btn-outline" style="padding:5px 10px;">◀</button>
+          <select id="yearSelect"></select>
+          <select id="monthSelect"></select>
+          <button id="nextYearBtn" class="btn-outline" style="padding:5px 10px;">▶</button>
+        </div>
+        <div class="calendar-weekdays"><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div></div>
+        <div id="calendarDays" class="calendar-days"></div>
+      </div>
+    `;
+    
+    document.querySelectorAll('.logo-only').forEach(card => {
+      card.onclick = () => {
+        const url = card.dataset.url;
+        if (url) window.open(url, '_blank');
+      };
+    });
+    
+    startClock();
+    document.getElementById('changeClockBtn').onclick = changeClockTimezone;
     initCalculator();
-    renderCalendar();
-    loadWeather();
-    loadNotes();
-    initTimer();
+    initWeather();
+    initNotepad();
+    initCalendar();
+    initWeatherWithSuggestions();
+    
+    document.getElementById('startTimerBtn').onclick = startTimer;
+    document.getElementById('resetTimerBtn').onclick = resetTimer;
+    document.getElementById('startChronoBtn').onclick = startChrono;
+    document.getElementById('pauseChronoBtn').onclick = pauseChrono;
+    document.getElementById('resetChronoBtn').onclick = resetChrono;
   }
 
   function initCalculator() {
+    const btns = ['7','8','9','/','4','5','6','*','1','2','3','-','0','.','C','+','='];
     const container = document.getElementById('calcButtons');
-    if (!container || container.innerHTML) return;
-    const buttons = ['7','8','9','/','4','5','6','*','1','2','3','-','0','.','C','+','←','='];
-    container.innerHTML = buttons.map(btn => `<button class="calc-btn ${'/*+-'.includes(btn) ? 'operator' : ''} ${btn === '=' ? 'equal' : ''}" data-val="${btn}">${btn}</button>`).join('');
-    const screen = document.getElementById('calcScreen');
-    let current = '0', prev = null, op = null, reset = false;
-    function update() { screen.innerText = current.length > 12 ? parseFloat(current).toExponential(6) : current; }
-    function compute() {
-      if (prev === null || op === null) return;
-      let a = parseFloat(prev), b = parseFloat(current);
-      if (isNaN(a) || isNaN(b)) return;
-      let res = op === '+' ? a+b : op === '-' ? a-b : op === '*' ? a*b : op === '/' ? (b===0?'Erreur':a/b) : 0;
-      current = res.toString();
-      prev = null; op = null; reset = true;
-      update();
-    }
-    document.querySelectorAll('#calcButtons .calc-btn').forEach(btn => {
+    if (!container) return;
+    container.innerHTML = btns.map(b => `<button class="calc-btn">${b}</button>`).join('');
+    let screen = document.getElementById('calcScreen');
+    let expr = '';
+    container.querySelectorAll('button').forEach(btn => {
       btn.onclick = () => {
-        let val = btn.getAttribute('data-val');
-        if (val === 'C') { current = '0'; prev = null; op = null; reset = false; update(); }
-        else if (val === '←') { current = current.length <= 1 ? '0' : current.slice(0,-1); reset = false; update(); }
-        else if (val === '=') { compute(); }
-        else if ('/*+-'.includes(val)) {
-          if (prev !== null && op !== null && !reset) compute();
-          prev = current; op = val; reset = true;
-        } else {
-          if (reset) { current = '0'; reset = false; }
-          if (val === '.' && current.includes('.')) return;
-          current = (current === '0' && val !== '.') ? val : current + val;
-          update();
-        }
+        let val = btn.innerText;
+        if (val === 'C') expr = '';
+        else if (val === '=') { try { expr = eval(expr).toString(); } catch(e) { expr = 'Erreur'; } }
+        else expr += val;
+        screen.innerText = expr || '0';
       };
     });
   }
 
-  function renderCalendar() {
-    const container = document.getElementById('calendarWidget');
-    if (!container) return;
-    let today = new Date();
-    let month = today.getMonth(), year = today.getFullYear();
-    function build() {
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month+1, 0).getDate();
-      let html = `<div class="calendar-header"><button id="prevMonth" style="background:none; border:none; color:#FFB347; font-size:1.2rem; cursor:pointer;"><i class="fas fa-chevron-left"></i></button><span>${new Date(year, month).toLocaleString('fr',{month:'long',year:'numeric'})}</span><button id="nextMonth" style="background:none; border:none; color:#FFB347; font-size:1.2rem; cursor:pointer;"><i class="fas fa-chevron-right"></i></button></div>
-      <div class="calendar-weekdays"><div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="calendar-days" id="calendarDays"></div>`;
-      container.innerHTML = html;
-      const daysDiv = document.getElementById('calendarDays');
-      let start = firstDay === 0 ? 6 : firstDay-1;
-      for(let i=0;i<start;i++) daysDiv.appendChild(document.createElement('div'));
-      for(let d=1;d<=daysInMonth;d++) { let el=document.createElement('div'); el.innerText=d; daysDiv.appendChild(el); }
-      document.getElementById('prevMonth')?.addEventListener('click',()=>{ month--; if(month<0){month=11;year--;} build(); });
-      document.getElementById('nextMonth')?.addEventListener('click',()=>{ month++; if(month>11){month=0;year++;} build(); });
-    }
-    build();
-  }
-
-  function loadWeather() {
-    const tempDiv = document.getElementById('weatherTemp');
-    const descDiv = document.getElementById('weatherDesc');
-    if(!tempDiv) return;
-    const temps = [28,29,30,27,31];
-    const descs = ['Ensoleillé','Peu nuageux','Clair','Légère brise','Chaud'];
-    const idx = Math.floor(Math.random()*5);
-    tempDiv.innerText = `${temps[idx]}°C`;
-    descDiv.innerText = descs[idx];
-  }
-
-  function loadNotes() {
-    let notes = JSON.parse(localStorage.getItem('bakary_notes') || '[]');
-    const container = document.getElementById('notesList');
-    if(!container) return;
-    function render() {
-      container.innerHTML = notes.map((note,i) => `<div class="note-item"><span>${note}</span><button data-idx="${i}" style="background:none; border:none; color:#FF6B6B; cursor:pointer;"><i class="fas fa-trash"></i></button></div>`).join('');
-      document.querySelectorAll('.note-item button').forEach(btn => {
-        btn.onclick = () => { notes.splice(parseInt(btn.dataset.idx),1); localStorage.setItem('bakary_notes',JSON.stringify(notes)); render(); };
-      });
-    }
-    document.getElementById('addNoteBtn')?.addEventListener('click',()=>{
-      const inp = document.getElementById('noteInput');
-      if(inp.value.trim()){ notes.push(inp.value.trim()); localStorage.setItem('bakary_notes',JSON.stringify(notes)); inp.value=''; render(); }
-    });
-    render();
-  }
-
-  let timerInterval = null;
-  function initTimer() {
-    let remaining = 0;
-    const display = document.getElementById('timerDisplay');
-    function updateDisplay() { let m=Math.floor(remaining/60); let s=remaining%60; display.innerText=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
-    document.getElementById('startTimerBtn')?.addEventListener('click',()=>{
-      let mins = parseInt(document.getElementById('timerMinutes')?.value || '0');
-      if(mins>0 && !timerInterval){
-        remaining = mins*60;
-        updateDisplay();
-        timerInterval = setInterval(()=>{ if(remaining>0){ remaining--; updateDisplay(); }else{ clearInterval(timerInterval); timerInterval=null; } },1000);
+  async function initWeather() {
+    const cityInput = document.getElementById('cityInput');
+    const resultDiv = document.getElementById('weatherResult');
+    const btn = document.getElementById('getWeatherBtn');
+    
+    const fetchWeather = async () => {
+      const city = cityInput.value.trim();
+      if (!city) return;
+      resultDiv.innerHTML = "⏳ Chargement...";
+      try {
+        const res = await fetch(`https://wttr.in/${city}?format=j1`);
+        const data = await res.json();
+        const temp = data.current_condition[0].temp_C;
+        const desc = data.current_condition[0].weatherDesc[0].value;
+        const humid = data.current_condition[0].humidity;
+        resultDiv.innerHTML = `<div style="background:#FFB34722; padding:15px; border-radius:16px;">
+          <div style="font-size:2rem;">🌡️ ${temp}°C</div>
+          <div>${desc}</div>
+          <div>💧 Humidité: ${humid}%</div>
+          <div>📍 ${city.toUpperCase()}</div>
+        </div>`;
+      } catch(e) {
+        resultDiv.innerHTML = '<div style="color:#FFB347;">⚠️ Ville non trouvée. Essayez "Paris", "London", "Conakry"...</div>';
       }
+    };
+    if (btn) btn.onclick = fetchWeather;
+    if (cityInput && cityInput.value) fetchWeather();
+  }
+
+  function initNotepad() {
+    const textarea = document.getElementById('noteTextarea');
+    if (!textarea) return;
+    const savedNote = localStorage.getItem(`note_${currentUser.email}`) || '';
+    textarea.value = savedNote;
+    const saveBtn = document.getElementById('saveNoteBtn');
+    if (saveBtn) {
+      saveBtn.onclick = () => {
+        localStorage.setItem(`note_${currentUser.email}`, textarea.value);
+        const statusDiv = document.getElementById('noteStatus');
+        statusDiv.innerHTML = '✅ Enregistré !';
+        setTimeout(() => statusDiv.innerHTML = '', 2000);
+      };
+    }
+  }
+
+  function initCalendar() {
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    if (!yearSelect || !monthSelect) return;
+    const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    
+    for (let y = 2020; y <= 2040; y++) {
+      let opt = document.createElement('option');
+      opt.value = y; opt.textContent = y;
+      if (y === currentYear) opt.selected = true;
+      yearSelect.appendChild(opt);
+    }
+    months.forEach((m, i) => {
+      let opt = document.createElement('option');
+      opt.value = i; opt.textContent = m;
+      if (i === currentMonth) opt.selected = true;
+      monthSelect.appendChild(opt);
     });
-    document.getElementById('resetTimerBtn')?.addEventListener('click',()=>{ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } remaining=0; updateDisplay(); });
-    updateDisplay();
+    
+    function buildCalendar() {
+      const year = parseInt(yearSelect.value);
+      const month = parseInt(monthSelect.value);
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysDiv = document.getElementById('calendarDays');
+      daysDiv.innerHTML = '';
+      let start = firstDay === 0 ? 6 : firstDay - 1;
+      for (let i = 0; i < start; i++) daysDiv.appendChild(document.createElement('div'));
+      for (let d = 1; d <= daysInMonth; d++) {
+        let dayDiv = document.createElement('div');
+        dayDiv.innerText = d;
+        if (d === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth()) dayDiv.style.background = '#FFB347';
+        daysDiv.appendChild(dayDiv);
+      }
+    }
+    yearSelect.onchange = buildCalendar;
+    monthSelect.onchange = buildCalendar;
+    const prevBtn = document.getElementById('prevYearBtn');
+    const nextBtn = document.getElementById('nextYearBtn');
+    if (prevBtn) prevBtn.onclick = () => { yearSelect.value = parseInt(yearSelect.value) - 1; buildCalendar(); };
+    if (nextBtn) nextBtn.onclick = () => { yearSelect.value = parseInt(yearSelect.value) + 1; buildCalendar(); };
+    buildCalendar();
   }
 
-  function registerUser(nom,prenom,birth,phone,email,password){
-    if(users.find(u=>u.email===email)) return false;
-    users.push({uid:'user_'+Date.now(), nom, prenom, birth, phone, email, password, provider:'email'});
-    localStorage.setItem('bakary_users',JSON.stringify(users));
-    return true;
+  function loadChatMessages() {
+    const container = document.getElementById('chatMessages');
+    if (!container) return;
+    container.innerHTML = messages.map(m => `<div class="message ${m.senderEmail === currentUser.email ? 'mine' : 'theirs'}"><strong>${m.senderName}</strong><br>${m.text}<br><small>${new Date(m.time).toLocaleTimeString()}</small></div>`).join('');
+    container.scrollTop = container.scrollHeight;
   }
-  function loginUser(email,password){
-    const user = users.find(u=>u.email===email && u.password===password);
-    if(user) return {uid:user.uid, email:user.email, name:`${user.prenom||''} ${user.nom||''}`.trim() || user.email, provider:'email'};
-    return null;
+  
+  function sendMessage(text) {
+    if (!text.trim()) return;
+    messages.push({ senderEmail: currentUser.email, senderName: currentUser.name || currentUser.email.split('@')[0], text, time: Date.now() });
+    saveMessages(); loadChatMessages();
   }
-  function socialLogin(provider){
-    const fakeUser = {uid:provider+'_'+Date.now(), email:`${provider}@user.com`, name:`${provider.charAt(0).toUpperCase()+provider.slice(1)} User`, provider:provider};
-    saveSession(fakeUser);
-    updateUIForAuth();
+  
+  function applyTheme(theme) {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(theme);
+    if (currentUser) { currentUser.theme = theme; saveUsers(); }
+  }
+  
+  function showPage(pageId) {
+    ['homePage', 'appsPage', 'chatPage', 'settingsPage'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    document.getElementById(pageId).classList.remove('hidden');
   }
 
-  document.getElementById('doLogin')?.addEventListener('click',()=>{
-    const email = document.getElementById('loginEmail').value;
-    const pwd = document.getElementById('loginPassword').value;
-    const user = loginUser(email,pwd);
-    if(user || (email==='bakaryconte80@gmail.com' && pwd==='admin')){ 
-      if(!user && email==='bakaryconte80@gmail.com' && pwd==='admin') saveSession({uid:'admin', email, name:'Bakary Conté', provider:'email'});
-      else saveSession(user);
-      updateUIForAuth();
-    } else alert('Email ou mot de passe incorrect');
-  });
-  document.getElementById('doRegister')?.addEventListener('click',()=>{
-    if(registerUser(
-      document.getElementById('regNom').value,
-      document.getElementById('regPrenom').value,
-      document.getElementById('regBirth').value,
-      document.getElementById('regPhone').value,
-      document.getElementById('regEmail').value,
-      document.getElementById('regPassword').value
-    )) alert('Compte créé ! Connectez-vous');
-    else alert('Email déjà utilisé');
-  });
-  document.querySelectorAll('#googleAuthBtn, #googleAuthBtn2').forEach(btn=>btn.addEventListener('click',()=>socialLogin('google')));
-  document.querySelectorAll('#githubAuthBtn, #githubAuthBtn2').forEach(btn=>btn.addEventListener('click',()=>socialLogin('github')));
-  document.querySelectorAll('.auth-tab').forEach(tab=>{
-    tab.addEventListener('click',()=>{
+  // Événements onglets authentification
+  document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.onclick = () => {
       const type = tab.dataset.auth;
-      document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
-      document.getElementById('loginForm').classList.toggle('active', type==='login');
-      document.getElementById('registerForm').classList.toggle('active', type==='register');
-    });
+      document.getElementById('loginForm').classList.toggle('active', type === 'login');
+      document.getElementById('registerForm').classList.toggle('active', type === 'register');
+    };
   });
+  
+  document.getElementById('doLoginBtn').onclick = () => login(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+  document.getElementById('doRegisterBtn').onclick = () => {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const pwd = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirmPassword').value;
+    if (pwd !== confirm) {
+      alert("Les mots de passe ne correspondent pas");
+      return;
+    }
+    registerUser(name, email, pwd);
+  };
+  document.getElementById('googleLoginBtn').onclick = loginWithGoogle;
+  document.getElementById('githubLoginBtn').onclick = loginWithGithub;
+  document.getElementById('guestLoginBtn').onclick = guestLogin;
+  document.getElementById('logoutBtn').onclick = logout;
+  document.getElementById('tabHome').onclick = () => showPage('homePage');
+  document.getElementById('tabApps').onclick = () => { if (currentUser.role !== 'guest') showPage('appsPage'); else alert("Réservé aux membres."); };
+  document.getElementById('tabChat').onclick = () => showPage('chatPage');
+  document.getElementById('tabSettings').onclick = () => showPage('settingsPage');
+  document.getElementById('sendChatBtn').onclick = () => { sendMessage(document.getElementById('chatInput').value); document.getElementById('chatInput').value = ''; };
+  document.getElementById('saveSettingsBtn').onclick = () => {
+    if (document.getElementById('settingsPassword').value) currentUser.password = document.getElementById('settingsPassword').value;
+    currentUser.name = document.getElementById('settingsName').value;
+    currentUser.email = document.getElementById('settingsEmail').value;
+    saveUsers(); alert("Profil mis à jour"); renderApp();
+  };
+  document.getElementById('applyThemeBtn').onclick = () => applyTheme(document.getElementById('themeSelect').value);
+  document.getElementById('saveProfilePicBtn').onclick = () => {
+    const file = document.getElementById('profilePicUpload').files[0];
+    if (file) { const reader = new FileReader(); reader.onload = e => { currentUser.avatar = e.target.result; saveUsers(); renderApp(); }; reader.readAsDataURL(file); }
+  };
 
-  if(loadSession()) updateUIForAuth();
-  else updateUIForAuth();
-  initNavigation();
-  if(currentUser) initApps();
+  const saved = localStorage.getItem('bakary_session');
+  if (saved) {
+    const session = JSON.parse(saved);
+    const user = users.find(u => u.email === session.email);
+    if (user) { currentUser = user; renderApp(); } else logout();
+  } else logout();
 </script>
 </body>
 </html>
